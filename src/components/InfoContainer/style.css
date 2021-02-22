@@ -1,0 +1,61 @@
+.infoContainer {
+  position: relative;
+  width: 500px;
+  align-items: center;
+  background: rgb(255, 255, 255);
+  border-radius: 6px;
+}
+
+.infoHeader {
+  padding: 16px;
+  margin-bottom: 8px;
+}
+
+.statistics {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  margin: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgb(216,216,216);
+}
+
+.infoClose {
+  position: absolute;
+  top: -20px;
+  right: -60px;
+  margin-top: 8px;
+  margin-left: 8px;
+  fill: #fff;
+  z-index: 3;
+}
+
+.headerText {
+  font-size: 24px;
+}
+.subHeader {
+  font-size: 12px;
+  margin-top: 8px;
+}
+.value {
+  margin-top: 4px;
+  font-weight: bold;
+}
+.cameraItemBottom {
+  margin-top: 16px;
+}
+.cameraDetails {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgb(216,216,216);
+}
+.dimension {
+  margin: 16px;
+  padding-bottom: 8px;
+}
+.title {
+  font-size: 12px;
+}
