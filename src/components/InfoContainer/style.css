@@ -1,33 +1,42 @@
 .infoContainer {
   position: relative;
-  width: 500px;
-  align-items: center;
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   background: rgb(255, 255, 255);
   border-radius: 6px;
-}
-
-.infoHeader {
-  padding: 16px;
-  margin-bottom: 8px;
-}
-
-.statistics {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  margin: 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgb(216,216,216);
 }
 
 .infoClose {
   position: absolute;
   top: -20px;
-  right: -60px;
+  right: -10px;
   margin-top: 8px;
   margin-left: 8px;
-  fill: #fff;
   z-index: 3;
+  cursor: pointer;
+}
+
+/* close buttton style for small screens*/
+@media only screen and (max-width: 650px) {
+  .infoClose {
+    width: 8px;
+    top: -50px;
+    right: 0px;
+  }
+}
+
+.infoHeader {
+  padding: 16px;
+}
+
+.statistics {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgb(216, 216, 216);
 }
 
 .headerText {
@@ -50,7 +59,7 @@
   flex-wrap: wrap;
   margin: 16px;
   padding-bottom: 8px;
-  border-bottom: 1px solid rgb(216,216,216);
+  border-bottom: 1px solid rgb(216, 216, 216);
 }
 .dimension {
   margin: 16px;

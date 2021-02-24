@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import axios from  'axios';
 
 import ImageHolder from "../../components/ImageContainer";
@@ -7,10 +7,9 @@ import Info from '../../components/InfoContainer';
 import ImagePreview from '../../components/ImagePreview';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Modal from 'react-modal';
-import GlobalStyle from '../../theme';
 import './App.css'
 
-const customStyles = {
+const imagePreviewModalStyles = {
   overlay:{
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
@@ -23,7 +22,7 @@ const customStyles = {
   }
 };
 
-const customInfoStyles = {
+const infoModalStyles = {
   overlay:{
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
@@ -39,18 +38,18 @@ const customInfoStyles = {
 
 function App() {
 
-  const [imageData, setImageData] = useState([]);
+  const [imageData, setImageData] = useState([]);  // holsd the fetched image collection
 
-  const [selectedImage, setSelectedImage] = useState();
+  const [selectedImage, setSelectedImage] = useState(); // current selected image for preview
 
-  const [showPreview, setShowPreview] = useState(false);
+  const [showPreview, setShowPreview] = useState(false); // flag to toggle image preview modal
 
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(false); //flag to toggle image info modal
 
-  const [isPrevDisabled, setprevDisabled] = useState(false);
+  const [isPrevDisabled, setprevDisabled] = useState(false);  // flag to set the previous button disabled
 
-  // const [element, setElement] = useState(null);
 
+  // fucntion to fetch image data
   const fetchUserData =  (count=10) =>{
     let url = 'https://api.unsplash.com/photos/random?client_id=';
     let accesskey = process.env.REACT_APP_ACCESSKEY1;
@@ -70,11 +69,14 @@ function App() {
     let totalImages = imageData.length -1;
     if(selectedImage){
       const selectedImageIndex = imageData?.findIndex((image) => image.id === selectedImage.id);
+
+      // disabling/ enabling the previous button based on current index  
       if(selectedImageIndex === 0){
         setprevDisabled(true);
       }else{
         setprevDisabled(false);
       }
+      // loading next set of images before reaching the end of imageData
       if(totalImages - selectedImageIndex <= 3){
         fetchUserData();
       }
@@ -87,50 +89,20 @@ function App() {
     setShowPreview(true);
   }
 
+  // next - previous click handlers
+
   const onClickNext = useCallback(() => {
     const selectedImageIndex = imageData?.findIndex((image) => image.id === selectedImage?.id);
     setSelectedImage(imageData[selectedImageIndex + 1]);
-  },[ImageData,selectedImage]);
+  },[imageData,selectedImage]);
 
   const onClickPrev = useCallback(() => {
     const selectedImageIndex = imageData?.findIndex((image) => image.id === selectedImage?.id);
     setSelectedImage(imageData[selectedImageIndex - 1]);
-  },[ImageData,selectedImage])
-
-  // const loader = React.useRef(fetchUserData);
-  // const observer = React.useRef(
-  //   new IntersectionObserver((entries) => {
-  //     // debugger;
-  //     const first = entries[0];
-  //     console.log(first);
-  //     if(first.isIntersecting){
-  //       loader.current();
-  //     }
-  //   }, {threshold: 1})
-  // );
-
-  // useEffect(() => {
-  //   const currentElement = element;
-  //   const currentObserver = observer.current;
-
-  //   if(currentElement){
-  //     currentObserver.observe(currentElement);
-  //   }
-  //   return ()=> {
-  //     console.log('here');
-  //     if(currentElement){
-  //       currentObserver.unobserve(currentElement);
-  //     }
-  //   }
-  // },[element])
-
-  // useEffect(() => {
-  //   loader.current = fetchUserData;
-  // }, [fetchUserData])
+  },[imageData,selectedImage]);
 
   return (
     <div className="App">
-      <GlobalStyle/>
       <InfiniteScroll
         dataLength={imageData.length}
         next={fetchUserData}
@@ -141,7 +113,7 @@ function App() {
         <div className="imageWrapper">
           {imageData.map(image => 
             <ImageHolder 
-              url={image?.urls.regular} 
+              url={image?.urls.full} 
               user = {image?.user} 
               key = {image.id} 
               imageId = {image.id}
@@ -151,10 +123,11 @@ function App() {
         </div>
       </InfiniteScroll>
 
+      {/* image previe modal */}
       <Modal
           isOpen={showPreview}
           onRequestClose={()=> setShowPreview(false)}
-          style={customStyles}
+          style={imagePreviewModalStyles}
         > 
           <ImagePreview 
             selectedImage={selectedImage} 
@@ -166,10 +139,11 @@ function App() {
           />
         </Modal>
 
+      {/* image Info modal */}
         <Modal
           isOpen={showInfo}
           onRequestClose={()=>setShowInfo(false)}
-          style={customInfoStyles}
+          style={infoModalStyles}
         >
           <Info selectedImage={selectedImage} toggleInfoPopup={() => setShowInfo(false)}/>
         </Modal>

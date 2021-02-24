@@ -2,8 +2,10 @@ import React from 'react'
 import './style.css';
 
 const Info = props => {
-    const {selectedImage, toggleInfoPopup} = props;
+    const {selectedImage, toggleInfoPopup} = props;   
+    // loacl date string options
     const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
+    
     return (
         <div className = "infoContainer">
         <div className="infoClose" onClick={toggleInfoPopup}>
@@ -12,10 +14,14 @@ const Info = props => {
               <div class="rightleft"></div>
             </div>
           </div>
+
           <div className="infoHeader">
             <span className='headerText'>Info</span>
             <div className='subHeader'>{`Published on ${new Date(selectedImage?.created_at).toLocaleDateString('en-us',options)}`}</div>
           </div>
+
+          {/* Image statistics */}
+
           <div className="statistics">
             <div className ="viewStats">
               <span className="title">Views</span>
@@ -30,7 +36,11 @@ const Info = props => {
               <div className = 'value'>{selectedImage?.likes.toLocaleString()}</div>
             </div>
           </div>
+
+          {/* Camera details */}
+
           <div className="cameraDetails">
+
             <div className="cameraItemGroup">
               <div className="cameraItem">
                 <span className="title">Camera Make</span>
@@ -40,7 +50,8 @@ const Info = props => {
                 <span className="title">Aperture</span>
                 <div className = 'value'>{selectedImage?.exif.aperture  || "--"}</div>
               </div>
-            </div > 
+            </div>
+
               <div className="cameraItemGroup">
                 <div className="cameraItem">
                   <span className="title">Camera Model</span>
@@ -51,6 +62,7 @@ const Info = props => {
                   <div className = 'value'>{selectedImage?.exif.exposure_time  || "--"}</div>
                 </div>
               </div>
+
               <div className="cameraItemGroup">
                 <div className="cameraItem">
                   <span className="title">Focal Length</span>
@@ -62,6 +74,8 @@ const Info = props => {
                 </div>
               </div>
             </div>
+
+            {/* Image dimensions */}
             <div className="dimension">
                 <span className="title">Dimensions</span>
                 <div className ='value'>{`${selectedImage?.width} x ${selectedImage?.height}`}</div>
